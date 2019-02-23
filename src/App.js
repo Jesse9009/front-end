@@ -1,12 +1,12 @@
-import React, { Component } from "react";
-import Navigation from "./components/Navigation";
-import { Route } from "react-router-dom";
+import React, { Component } from 'react';
+import Navigation from './components/Navigation';
+import { Route } from 'react-router-dom';
 
-import Home from "./components/Home";
-import Register from "./components/Register";
-import Login from "./components/Login";
-import WorkerDashboard from "./components/WorkerDashboard";
-import CustomerHomePage from "./components/CustomerHomePage";
+import Home from './components/Home';
+import Register from './components/Register';
+import Login from './components/Login';
+import WorkerDashboard from './components/WorkerDashboard';
+import CustomerHomePage from './components/CustomerHomePage';
 
 class App extends Component {
   constructor() {
@@ -29,11 +29,11 @@ class App extends Component {
         <Navigation />
         <Route exact path="/" render={props => <Home {...props} />} />
         <Route exact path="/login" render={props => <Login {...props} />} />
-        <Route exact path="/register" component={Register} />
-        {localStorage.getItem("jwt") ? (
+        <Route path="/register" component={Register} />
+        {localStorage.getItem('jwt') ? (
           <Route exact path="/dashboard" component={WorkerDashboard} />
         ) : null}
-        {localStorage.getItem("jwt") ? (
+        {localStorage.getItem('jwt') ? (
           <Route path="/customer" component={CustomerHomePage} />
         ) : null}
       </div>

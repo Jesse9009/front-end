@@ -24,6 +24,10 @@ export default class Navigation extends React.Component {
     });
   };
 
+  navLinkToggle = () => {
+    this.setState({ isOpen: false });
+  };
+
   logout = () => {
     localStorage.removeItem('jwt');
     this.toggle();
@@ -44,7 +48,7 @@ export default class Navigation extends React.Component {
             <Nav className="ml-auto" navbar>
               <NavItem>
                 <NavLink
-                  onClick={this.toggle}
+                  onClick={this.navLinkToggle}
                   style={{ color: '#eee' }}
                   tag={RRNavLink}
                   exact
@@ -56,7 +60,7 @@ export default class Navigation extends React.Component {
               </NavItem>
               <NavItem>
                 <NavLink
-                  onClick={this.toggle}
+                  onClick={this.navLinkToggle}
                   style={{ color: '#efefef' }}
                   tag={RRNavLink}
                   exact
@@ -68,7 +72,7 @@ export default class Navigation extends React.Component {
               </NavItem>
               <NavItem>
                 <NavLink
-                  onClick={this.toggle}
+                  onClick={this.navLinkToggle}
                   style={{ color: '#efefef' }}
                   tag={RRNavLink}
                   exact
