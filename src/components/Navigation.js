@@ -25,13 +25,19 @@ export default class Navigation extends React.Component {
   };
 
   logout = () => {
-    localStorage.removeItem("token");
+    localStorage.removeItem("jwt");
+    this.toggle();
   };
 
   render() {
     return (
       <div>
-        <Navbar inverse style={{ backgroundColor: "#008C17" }} light expand="md">
+        <Navbar
+          dark
+          style={{ backgroundColor: "#008C17" }}
+          light
+          expand="md"
+        >
           <NavbarBrand href="/" style={{ fontSize: "2rem", color: "#30393A" }}>
             TipEASE
           </NavbarBrand>
@@ -40,6 +46,7 @@ export default class Navigation extends React.Component {
             <Nav className="ml-auto" navbar>
               <NavItem>
                 <NavLink
+                  onClick={this.toggle}
                   style={{ color: "#FFAFA" }}
                   tag={RRNavLink}
                   exact
@@ -51,6 +58,7 @@ export default class Navigation extends React.Component {
               </NavItem>
               <NavItem>
                 <NavLink
+                  onClick={this.toggle}
                   style={{ color: "#FFAFA" }}
                   tag={RRNavLink}
                   exact
@@ -62,6 +70,7 @@ export default class Navigation extends React.Component {
               </NavItem>
               <NavItem>
                 <NavLink
+                  onClick={this.toggle}
                   style={{ color: "#FFAFA" }}
                   tag={RRNavLink}
                   exact

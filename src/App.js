@@ -5,7 +5,7 @@ import { Route } from "react-router-dom";
 import Home from "./components/Home";
 import Register from "./components/Register";
 import Login from "./components/Login";
-import WorkerDashboard from './components/WorkerDashboard';
+import WorkerDashboard from "./components/WorkerDashboard";
 import CustomerHomePage from "./components/CustomerHomePage";
 
 class App extends Component {
@@ -17,13 +17,10 @@ class App extends Component {
   }
 
   componentDidMount() {
-    console.log("App.js - inside ComponentDidMount");
-    // console.log(localStorage.getItem('jwt'))
-    this.setState({ isLoading: false })
+    this.setState({ isLoading: false });
   }
 
   render() {
-    console.log("App.js - inside render");
     if (this.state.isLoading) {
       return <div>Loading...</div>;
     }

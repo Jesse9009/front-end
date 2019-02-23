@@ -4,20 +4,34 @@
 
 .registration-container {
   width: 500px;
-  border: 1px solid #008C17;
+  border: 1px solid #008c17;
   border-radius: 10px;
   margin: 5% auto;
 }
 
 .login-container {
   width: 500px;
-  border: 1px solid #008C17;
+  border: 1px solid #008c17;
   border-radius: 10px;
   margin: 5% auto;
 }
 
 .input-form {
   margin: 2%;
+}
+
+input[type="text"],
+input[type="password"] {
+  outline: none;
+  box-shadow: none !important;
+  border: 1px solid #ccc !important;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus {
+  outline: none;
+  box-shadow: 0 0 12px #008c17 !important;
+  border: 1px solid #ccc !important;
 }
 
 .additional-info {
@@ -41,14 +55,14 @@
 .card-container {
   display: flex;
   flex-flow: row wrap;
-  margin: 2%;
+  justify-content: center;
+  /* margin: 2%; */
 }
 
 .card {
-  width: 200px;
+  width: 250px;
+  height: 400px;
   margin: 2%;
-  height: 300px;
-  margin: 0 auto;
 }
 
 .card .card-img {
@@ -61,11 +75,12 @@
 .welcome-tip {
   font-family: Roboto;
   font-size: 1rem;
-  margin-top: 5%;
+  margin-top: 2%;
 }
 
 .worker-dashboard {
-  width: 500px;
+  width: 90%;
+  max-width: 500px;
   margin: 1% auto;
 }
 
@@ -75,12 +90,12 @@
 }
 
 .worker-dashboard-form {
-  border: 1px solid #008C17;
+  border: 1px solid #008c17;
   border-radius: 5px;
   padding: 2%;
 }
 
-.worker-dashboard Button {
+.worker-dashboard button {
   margin: 4% 0 2%;
 }
 
@@ -101,4 +116,3 @@
   display: flex;
   justify-content: space-evenly;
 }
-

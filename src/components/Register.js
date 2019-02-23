@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
-import { Button, Form, FormGroup, Label, Input, Collapse } from "reactstrap";
+import { Button, Collapse } from "reactstrap";
+import { AvForm, AvField } from 'availity-reactstrap-validation';
 import Axios from "axios";
 
 import "../App.css";
@@ -17,13 +18,15 @@ class Register extends Component {
     tagline: "",
     isRegistered: false,
     collapseCustomer: false,
-    collapseWorker: false
+    collapseWorker: false,
+    match: false
   };
 
   toggleCustomer = () => {
     // this.setState({ collapseCustomer: !this.state.collapseCustomer });
     this.setState({
       collapseCustomer: !this.state.collapseCustomer,
+      collapseWorker: false,
       accountType: "customer",
       isWorker: false
     });
@@ -33,6 +36,7 @@ class Register extends Component {
     //this.setState({ collapseWorker: !this.state.collapseWorker });
     this.setState({
       collapseWorker: !this.state.collapseWorker,
+      collapseCustomer: false,
       accountType: "worker"
       //isWorker: true
     });
@@ -69,7 +73,7 @@ class Register extends Component {
           this.setState({ isRegistered: true });
         })
         .catch(error => {
-          console.log("Axios Error Msg: ", error);
+          console.log("Error registering customer: ", error);
         });
     } else {
       Axios.post("https://tipease-server.herokuapp.com/api/register", user)
@@ -77,7 +81,7 @@ class Register extends Component {
           this.setState({ isRegistered: true });
         })
         .catch(error => {
-          console.log("Axios Error Msg: ", error);
+          console.log("Error registering worker: ", error);
         });
     }
   };
@@ -102,6 +106,12 @@ class Register extends Component {
     }
   };
 
+  checkPassword = e => {
+    const style1 = { border: "none" };
+
+    return style1;
+  };
+
   render() {
     if (this.state.isRegistered) {
       return <Redirect to="/login" />;
@@ -109,7 +119,14 @@ class Register extends Component {
 
     if (!this.state.isWorker) {
       return (
-        <div className="registration-container">
+        <div
+          className="registration-container"
+          style={{
+            backgroundColor: "white",
+            boxShadow: "0 0 10px snow",
+            border: "1px solid #333"
+          }}
+        >
           <h3 className="registration-legend">Registration</h3>
           <div className="register-buttons">
             <Button
@@ -130,9 +147,9 @@ class Register extends Component {
             </Button>
           </div>
           <Collapse isOpen={this.state.collapseCustomer}>
-            <Form className="input-form" onSubmit={this.submitHandler}>
-              <FormGroup>
-                <Input
+            <h4 style={{ textAlign: "center", color: "#555" }}>Customer</h4>
+            <AvForm className="input-form" onSubmit={this.submitHandler}>
+                <AvField
                   type="text"
                   name="username"
                   id="username"
@@ -140,9 +157,7 @@ class Register extends Component {
                   value={this.state.username}
                   onChange={this.handleInput}
                 />
-              </FormGroup>
-              <FormGroup>
-                <Input
+                <AvField
                   type="password"
                   name="password"
                   id="password"
@@ -150,16 +165,21 @@ class Register extends Component {
                   value={this.state.password}
                   onChange={this.handleInput}
                 />
-              </FormGroup>
+                <AvField
+                  type="password"
+                  name="confirmationPassword"
+                  placeholder="password"
+                  validate={{match:{value:'password'}}}
+                />
               <Button outline type="submit">
                 Register
               </Button>
-            </Form>
+            </AvForm>
           </Collapse>
           <Collapse isOpen={this.state.collapseWorker}>
-            <Form className="input-form" onSubmit={this.submitHandler}>
-              <FormGroup>
-                <Input
+            <h4 style={{ textAlign: "center", color: "#555" }}>Worker</h4>
+            <AvForm className="input-form" onSubmit={this.submitHandler}>
+                <AvField
                   type="text"
                   name="username"
                   id="username"
@@ -167,9 +187,7 @@ class Register extends Component {
                   value={this.state.username}
                   onChange={this.handleInput}
                 />
-              </FormGroup>
-              <FormGroup>
-                <Input
+                <AvField
                   type="password"
                   name="password"
                   id="password"
@@ -177,47 +195,44 @@ class Register extends Component {
                   value={this.state.password}
                   onChange={this.handleInput}
                 />
-              </FormGroup>
-              <FormGroup>
-                <Input
+                <AvField
+                  type="password"
+                  name="confirmationPassword"
+                  placeholder="password"
+                  validate={{match:{value:'password'}}}
+                />
+                <AvField
                   type="text"
                   name="fname"
                   placeholder="first name"
                   value={this.state.fname}
                   onChange={this.handleInput}
                 />
-              </FormGroup>
-              <FormGroup>
-                <Input
+                <AvField
                   type="text"
                   name="lname"
                   placeholder="last name"
                   value={this.state.lname}
                   onChange={this.handleInput}
                 />
-              </FormGroup>
-              <FormGroup>
-                <Input
+                <AvField
                   type="text"
                   name="jobTitle"
                   placeholder="job title"
                   value={this.state.jobTitle}
                   onChange={this.handleInput}
                 />
-              </FormGroup>
-              <FormGroup>
-                <Input
+                <AvField
                   type="text"
                   name="tagline"
                   placeholder="tagline"
                   value={this.state.tagline}
                   onChange={this.handleInput}
                 />
-              </FormGroup>
               <Button outline type="submit">
                 Register
               </Button>
-            </Form>
+            </AvForm>
           </Collapse>
         </div>
       );

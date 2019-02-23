@@ -39,6 +39,7 @@ class CustomerHomePage extends Component {
       }
     };
     /* This is where an axios.get would be done to get all of the workers from the database, then set your this.state.workers to the response.data */
+    // Axios.get("http://localhost:3333/api/customer", options)
     Axios.get("https://tipease-server.herokuapp.com/api/customer", options)
       // .then(response => console.log(response))
       .then(response =>
@@ -89,6 +90,11 @@ class CustomerHomePage extends Component {
     };
     console.log("tipSubmitHandler args: ", tip);
     // Update server with amount
+    // Axios.post(
+    //   `http://localhost:3333/api/customer/worker/${id}`,
+    //   { tip: +tip },
+    //   options
+    // )
     Axios.post(
       `https://tipease-server.herokuapp.com/api/customer/worker/${id}`,
       { tip: +tip },
@@ -106,22 +112,38 @@ class CustomerHomePage extends Component {
 
   render() {
     const { open, tip } = this.state;
+    const URL = "https://tipease-server.herokuapp.com";
     return (
       <>
-        <legend className="welcome-tip">
+        <legend
+          className="welcome-tip"
+          style={{
+            textAlign: "center",
+            fontWeight: "bold",
+            fontSize: "1.5rem",
+            color: "snow",
+            padding: "0 1%"
+          }}
+        >
           Welcome, {this.state.username.toUpperCase()}. Who would you like to
           tip?
         </legend>
         <div className="card-container">
           {this.state.workers.map(worker => {
+            const { photo } = worker;
+            const photoURL = photo.slice(6);
             return (
-              <Card className="card" key={worker.id}>
+              <Card
+                className="card"
+                key={worker.id}
+                style={{ boxShadow: "0px 0px 15px #333" }}
+              >
                 <CardImg
                   key={worker.id}
                   className="card-img"
                   top
                   width="100%"
-                  src={worker.photo}
+                  src={`${URL}${photoURL}`}
                   alt="Card image cap"
                 />
                 <CardBody>
