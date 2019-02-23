@@ -1,7 +1,7 @@
-import React, { Component } from "react";
-import Modal from "react-responsive-modal";
-import Axios from "axios";
-import jwt_decode from "jwt-decode";
+import React, { Component } from 'react';
+import Modal from 'react-responsive-modal';
+import Axios from 'axios';
+import jwt_decode from 'jwt-decode';
 import {
   Card,
   CardImg,
@@ -12,26 +12,30 @@ import {
   Input,
   Form,
   FormText,
-  FormGroup
-} from "reactstrap";
+  FormGroup,
+  Modal as M,
+  ModalBody
+} from 'reactstrap';
 
-import "../App.css";
+import '../App.css';
 
 class CustomerHomePage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: "",
+      username: '',
       workers: [],
       open: false,
-      tip: "0.00",
+      tip: '0.00',
       id: null,
-      tipSuccess: false
+      modal: false,
+      backdrop: true,
+      failedTip: false
     };
   }
 
   componentDidMount() {
-    const token = localStorage.getItem("jwt");
+    const token = localStorage.getItem('jwt');
     const { username, id } = jwt_decode(token);
     const options = {
       headers: {
@@ -40,23 +44,32 @@ class CustomerHomePage extends Component {
     };
     /* This is where an axios.get would be done to get all of the workers from the database, then set your this.state.workers to the response.data */
     // Axios.get("http://localhost:3333/api/customer", options)
-    Axios.get("https://tipease-server.herokuapp.com/api/customer", options)
+    Axios.get('https://tipease-server.herokuapp.com/api/customer', options)
       // .then(response => console.log(response))
       .then(response =>
         this.setState({
           username,
           workers: response.data,
-          tipSuccess: true,
+          // tipSuccess: true,
           id
         })
       )
       .catch(err => console.log(err));
   }
 
-  toggle = () => {
-    this.setState(prevState => ({
-      modal: !prevState.modal
-    }));
+  toggleSuccess = () => {
+    this.setState({
+      modal: !this.state.modal,
+      open: false,
+      tip: '0.00'
+    });
+  };
+  toggleFail = () => {
+    this.setState({
+      failedTip: !this.state.failedTip,
+      open: false,
+      tip: '0.00'
+    });
   };
 
   handleChange(event, maskedvalue, floatvalue) {
@@ -71,7 +84,7 @@ class CustomerHomePage extends Component {
   };
 
   onCloseModal = () => {
-    this.setState({ open: false });
+    this.setState({ open: false, tipSuccess: false });
   };
 
   handleInput = async e => {
@@ -82,13 +95,13 @@ class CustomerHomePage extends Component {
   tipSubmitHandler = e => {
     e.preventDefault();
     const { id, tip } = this.state;
-    const token = localStorage.getItem("jwt");
+    const token = localStorage.getItem('jwt');
     const options = {
       headers: {
         Authorization: token
       }
     };
-    console.log("tipSubmitHandler args: ", tip);
+    console.log('tipSubmitHandler args: ', tip);
     // Update server with amount
     // Axios.post(
     //   `http://localhost:3333/api/customer/worker/${id}`,
@@ -101,9 +114,12 @@ class CustomerHomePage extends Component {
       options
     )
       .then(response => {
-        console.log("TipResponse: ", response);
-        //  close modal
-        this.setState({ open: false });
+        // console.log(`${response.data}`);
+        if (response.data.toLowerCase() === 'tip received') {
+          this.toggleSuccess();
+        } else {
+          this.toggleFail();
+        }
       })
       .catch(error => {
         console.log(error);
@@ -112,31 +128,30 @@ class CustomerHomePage extends Component {
 
   render() {
     const { open, tip } = this.state;
-    const URL = "https://tipease-server.herokuapp.com";
+    const URL = 'https://tipease-server.herokuapp.com';
     return (
       <>
         <legend
           className="welcome-tip"
           style={{
-            textAlign: "center",
-            fontWeight: "bold",
-            fontSize: "1.5rem",
-            color: "snow",
-            padding: "0 1%"
+            textAlign: 'center',
+            fontWeight: 'bold',
+            fontSize: '1.5rem',
+            color: 'snow',
+            padding: '0 1%'
           }}
         >
-          Welcome, {this.state.username.toUpperCase()}. Who would you like to
-          tip?
+          Welcome, {this.state.username}. Who would you like to tip?
         </legend>
         <div className="card-container">
           {this.state.workers.map(worker => {
-            const { photo } = worker;
+            const photo = worker.photo || '';
             const photoURL = photo.slice(6);
             return (
               <Card
                 className="card"
                 key={worker.id}
-                style={{ boxShadow: "0px 0px 15px #333" }}
+                style={{ boxShadow: '0px 0px 15px #333' }}
               >
                 <CardImg
                   key={worker.id}
@@ -193,6 +208,39 @@ class CustomerHomePage extends Component {
               </Form>
             </Modal>
           </div>
+          <M
+            className="tip-success"
+            isOpen={this.state.modal}
+            toggle={this.toggleSuccess}
+            backdrop={this.state.backdrop}
+          >
+            <ModalBody>
+              <h3>Tip Received</h3>
+              <h3>Thank You!</h3>
+            </ModalBody>
+
+            <Button
+              color="primary"
+              className="okBtn"
+              onClick={this.toggleSuccess}
+            >
+              Ok
+            </Button>
+          </M>
+          <M
+            className="tip-success"
+            isOpen={this.state.failedTip}
+            toggle={this.toggleFail}
+            backdrop={this.state.backdrop}
+          >
+            <ModalBody>
+              <h3>Tip Not Sent. Please try again.</h3>
+            </ModalBody>
+
+            <Button color="primary" className="okBtn" onClick={this.toggleFail}>
+              Ok
+            </Button>
+          </M>
         </div>
       </>
     );

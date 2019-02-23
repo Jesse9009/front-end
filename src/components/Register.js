@@ -1,25 +1,27 @@
-import React, { Component } from "react";
-import { Redirect } from "react-router-dom";
-import { Button, Collapse } from "reactstrap";
+import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
+import { Button, Collapse, Modal, ModalBody } from 'reactstrap';
 import { AvForm, AvField } from 'availity-reactstrap-validation';
-import Axios from "axios";
+import Axios from 'axios';
 
-import "../App.css";
+import '../App.css';
 
 class Register extends Component {
   state = {
-    username: "",
-    password: "",
-    accountType: "",
+    username: '',
+    password: '',
+    accountType: '',
     isWorker: false,
-    fname: "",
-    lname: "",
-    jobTitle: "",
-    tagline: "",
+    fname: '',
+    lname: '',
+    jobTitle: '',
+    tagline: '',
     isRegistered: false,
     collapseCustomer: false,
     collapseWorker: false,
-    match: false
+    match: false,
+    modal: false,
+    backdrop: true
   };
 
   toggleCustomer = () => {
@@ -27,7 +29,7 @@ class Register extends Component {
     this.setState({
       collapseCustomer: !this.state.collapseCustomer,
       collapseWorker: false,
-      accountType: "customer",
+      accountType: 'customer',
       isWorker: false
     });
   };
@@ -37,8 +39,21 @@ class Register extends Component {
     this.setState({
       collapseWorker: !this.state.collapseWorker,
       collapseCustomer: false,
-      accountType: "worker"
+      accountType: 'worker'
       //isWorker: true
+    });
+  };
+
+  toggle = () => {
+    this.setState({
+      modal: !this.state.modal
+    });
+  };
+
+  redirectToLogin = () => {
+    this.setState({
+      modal: !this.state.modal,
+      isRegistered: true
     });
   };
 
@@ -63,25 +78,27 @@ class Register extends Component {
       tagline
     };
 
-    if (accountType === "customer") {
-      Axios.post("https://tipease-server.herokuapp.com/api/register", {
+    if (accountType === 'customer') {
+      Axios.post('https://tipease-server.herokuapp.com/api/register', {
         username,
         password,
         accountType
       })
         .then(response => {
-          this.setState({ isRegistered: true });
+          // this.setState({ isRegistered: true });
+          this.toggle();
         })
         .catch(error => {
-          console.log("Error registering customer: ", error);
+          console.log('Error registering customer: ', error);
         });
     } else {
-      Axios.post("https://tipease-server.herokuapp.com/api/register", user)
+      Axios.post('https://tipease-server.herokuapp.com/api/register', user)
         .then(response => {
-          this.setState({ isRegistered: true });
+          // this.setState({ isRegistered: true });
+          this.toggle();
         })
         .catch(error => {
-          console.log("Error registering worker: ", error);
+          console.log('Error registering worker: ', error);
         });
     }
   };
@@ -93,7 +110,7 @@ class Register extends Component {
 
   handleOptionChange = e => {
     const accntType = e.target.value;
-    if (accntType === "worker") {
+    if (accntType === 'worker') {
       this.setState({
         accountType: accntType,
         isWorker: true
@@ -107,7 +124,7 @@ class Register extends Component {
   };
 
   checkPassword = e => {
-    const style1 = { border: "none" };
+    const style1 = { border: 'none' };
 
     return style1;
   };
@@ -122,9 +139,9 @@ class Register extends Component {
         <div
           className="registration-container"
           style={{
-            backgroundColor: "white",
-            boxShadow: "0 0 10px snow",
-            border: "1px solid #333"
+            backgroundColor: 'white',
+            boxShadow: '0 0 10px snow',
+            border: '1px solid #333'
           }}
         >
           <h3 className="registration-legend">Registration</h3>
@@ -133,7 +150,7 @@ class Register extends Component {
               outline
               color="primary"
               onClick={this.toggleCustomer}
-              style={{ marginBottom: "1rem" }}
+              style={{ marginBottom: '1rem' }}
             >
               Customer
             </Button>
@@ -141,99 +158,115 @@ class Register extends Component {
               outline
               color="success"
               onClick={this.toggleWorker}
-              style={{ marginBottom: "1rem" }}
+              style={{ marginBottom: '1rem' }}
             >
               Worker
             </Button>
           </div>
           <Collapse isOpen={this.state.collapseCustomer}>
-            <h4 style={{ textAlign: "center", color: "#555" }}>Customer</h4>
+            <h4 style={{ textAlign: 'center', color: '#555' }}>Customer</h4>
             <AvForm className="input-form" onSubmit={this.submitHandler}>
-                <AvField
-                  type="text"
-                  name="username"
-                  id="username"
-                  placeholder="username"
-                  value={this.state.username}
-                  onChange={this.handleInput}
-                />
-                <AvField
-                  type="password"
-                  name="password"
-                  id="password"
-                  placeholder="password"
-                  value={this.state.password}
-                  onChange={this.handleInput}
-                />
-                <AvField
-                  type="password"
-                  name="confirmationPassword"
-                  placeholder="password"
-                  validate={{match:{value:'password'}}}
-                />
+              <AvField
+                type="text"
+                name="username"
+                id="username"
+                placeholder="username"
+                value={this.state.username}
+                onChange={this.handleInput}
+              />
+              <AvField
+                type="password"
+                name="password"
+                id="password"
+                placeholder="password"
+                value={this.state.password}
+                onChange={this.handleInput}
+              />
+              <AvField
+                type="password"
+                name="confirmationPassword"
+                placeholder="password"
+                validate={{ match: { value: 'password' } }}
+              />
               <Button outline type="submit">
                 Register
               </Button>
             </AvForm>
           </Collapse>
           <Collapse isOpen={this.state.collapseWorker}>
-            <h4 style={{ textAlign: "center", color: "#555" }}>Worker</h4>
+            <h4 style={{ textAlign: 'center', color: '#555' }}>Worker</h4>
             <AvForm className="input-form" onSubmit={this.submitHandler}>
-                <AvField
-                  type="text"
-                  name="username"
-                  id="username"
-                  placeholder="username"
-                  value={this.state.username}
-                  onChange={this.handleInput}
-                />
-                <AvField
-                  type="password"
-                  name="password"
-                  id="password"
-                  placeholder="password"
-                  value={this.state.password}
-                  onChange={this.handleInput}
-                />
-                <AvField
-                  type="password"
-                  name="confirmationPassword"
-                  placeholder="password"
-                  validate={{match:{value:'password'}}}
-                />
-                <AvField
-                  type="text"
-                  name="fname"
-                  placeholder="first name"
-                  value={this.state.fname}
-                  onChange={this.handleInput}
-                />
-                <AvField
-                  type="text"
-                  name="lname"
-                  placeholder="last name"
-                  value={this.state.lname}
-                  onChange={this.handleInput}
-                />
-                <AvField
-                  type="text"
-                  name="jobTitle"
-                  placeholder="job title"
-                  value={this.state.jobTitle}
-                  onChange={this.handleInput}
-                />
-                <AvField
-                  type="text"
-                  name="tagline"
-                  placeholder="tagline"
-                  value={this.state.tagline}
-                  onChange={this.handleInput}
-                />
+              <AvField
+                type="text"
+                name="username"
+                id="username"
+                placeholder="username"
+                value={this.state.username}
+                onChange={this.handleInput}
+              />
+              <AvField
+                type="password"
+                name="password"
+                id="password"
+                placeholder="password"
+                value={this.state.password}
+                onChange={this.handleInput}
+              />
+              <AvField
+                type="password"
+                name="confirmationPassword"
+                placeholder="password"
+                validate={{ match: { value: 'password' } }}
+              />
+              <AvField
+                type="text"
+                name="fname"
+                placeholder="first name"
+                value={this.state.fname}
+                onChange={this.handleInput}
+              />
+              <AvField
+                type="text"
+                name="lname"
+                placeholder="last name"
+                value={this.state.lname}
+                onChange={this.handleInput}
+              />
+              <AvField
+                type="text"
+                name="jobTitle"
+                placeholder="job title"
+                value={this.state.jobTitle}
+                onChange={this.handleInput}
+              />
+              <AvField
+                type="text"
+                name="tagline"
+                placeholder="tagline"
+                value={this.state.tagline}
+                onChange={this.handleInput}
+              />
               <Button outline type="submit">
                 Register
               </Button>
             </AvForm>
           </Collapse>
+          <Modal
+            isOpen={this.state.modal}
+            toggle={this.toggle}
+            backdrop={this.state.backdrop}
+          >
+            <ModalBody className="register-model">
+              <p>You have successfully registered, {this.state.username}.</p>
+            </ModalBody>
+            <Button
+              color="primary"
+              className="okBtn"
+              onClick={this.redirectToLogin}
+            >
+              Ok
+            </Button>
+          </Modal>
         </div>
       );
     }

@@ -1,21 +1,17 @@
-import React from "react";
-import { Redirect, Link } from "react-router-dom";
-import Axios from "axios";
-import {
-  Button,
-  Form,
-  FormGroup,
-  Input
-} from "reactstrap";
+import React from 'react';
+import { Redirect, Link } from 'react-router-dom';
+import Axios from 'axios';
+import { Button, Form, FormGroup, Input } from 'reactstrap';
 
-import "../App.css";
+import '../App.css';
 
 export default class Login extends React.Component {
   state = {
-    username: "",
-    password: "",
-    accountType: "",
-    isLoggedIn: false
+    username: '',
+    password: '',
+    accountType: '',
+    isLoggedIn: false,
+    invalidCreds: false
   };
 
   submitHandler = e => {
@@ -27,13 +23,14 @@ export default class Login extends React.Component {
     };
 
     // Axios.post("http://localhost:3333/api/login", user)
-    Axios.post("https://tipease-server.herokuapp.com/api/login", user)
+    Axios.post('https://tipease-server.herokuapp.com/api/login', user)
       .then(response => {
-        localStorage.setItem("jwt", response.data.token);
-        this.setState({ isLoggedIn: true });
+        localStorage.setItem('jwt', response.data.token);
+        this.setState({ isLoggedIn: true, invalidCreds: false });
       })
       .catch(error => {
-        console.log("Axios Error Msg: ", error);
+        console.log('Axios Error Msg: ', error);
+        this.setState({ invalidCreds: true });
       });
   };
 
@@ -51,9 +48,9 @@ export default class Login extends React.Component {
       <div
         className="login-container"
         style={{
-          backgroundColor: "white",
-          boxShadow: "0 0 10px snow",
-          border: "1px solid #333"
+          backgroundColor: 'white',
+          boxShadow: '0 0 10px snow',
+          border: '1px solid #333'
         }}
       >
         <legend className="login-legend">Please Login</legend>
@@ -77,6 +74,9 @@ export default class Login extends React.Component {
               value={this.state.password}
               onChange={this.handleInput}
             />
+            <p hidden={!this.state.invalidCreds} className="login-error">
+              Invalid credentials entered. Please try again.
+            </p>
           </FormGroup>
           <div className="login-buttons">
             <Button outline type="submit">

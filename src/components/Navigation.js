@@ -1,5 +1,5 @@
-import React from "react";
-import { NavLink as RRNavLink } from "react-router-dom";
+import React from 'react';
+import { NavLink as RRNavLink } from 'react-router-dom';
 import {
   Collapse,
   Navbar,
@@ -8,7 +8,7 @@ import {
   Nav,
   NavItem,
   NavLink
-} from "reactstrap";
+} from 'reactstrap';
 
 export default class Navigation extends React.Component {
   constructor(props) {
@@ -25,20 +25,18 @@ export default class Navigation extends React.Component {
   };
 
   logout = () => {
-    localStorage.removeItem("jwt");
+    localStorage.removeItem('jwt');
     this.toggle();
   };
 
   render() {
     return (
       <div>
-        <Navbar
-          dark
-          style={{ backgroundColor: "#008C17" }}
-          light
-          expand="md"
-        >
-          <NavbarBrand href="/" style={{ fontSize: "2rem", color: "#30393A" }}>
+        <Navbar dark style={{ backgroundColor: '#008C17' }} light expand="md">
+          <NavbarBrand
+            href="https://tipease-marketingsite.netlify.com/"
+            style={{ fontSize: '2rem', color: '#eee' }}
+          >
             TipEASE
           </NavbarBrand>
           <NavbarToggler className="nav-toggler" onClick={this.toggle} />
@@ -47,7 +45,7 @@ export default class Navigation extends React.Component {
               <NavItem>
                 <NavLink
                   onClick={this.toggle}
-                  style={{ color: "#FFAFA" }}
+                  style={{ color: '#eee' }}
                   tag={RRNavLink}
                   exact
                   to="/"
@@ -59,7 +57,7 @@ export default class Navigation extends React.Component {
               <NavItem>
                 <NavLink
                   onClick={this.toggle}
-                  style={{ color: "#FFAFA" }}
+                  style={{ color: '#efefef' }}
                   tag={RRNavLink}
                   exact
                   to="/login"
@@ -71,7 +69,7 @@ export default class Navigation extends React.Component {
               <NavItem>
                 <NavLink
                   onClick={this.toggle}
-                  style={{ color: "#FFAFA" }}
+                  style={{ color: '#efefef' }}
                   tag={RRNavLink}
                   exact
                   to="/register"
@@ -82,12 +80,12 @@ export default class Navigation extends React.Component {
               </NavItem>
               <NavItem>
                 <NavLink
-                  style={{ color: "#FFAFA" }}
+                  style={{ color: '#efefef' }}
                   onClick={this.logout}
                   tag={RRNavLink}
                   exact
                   to="/login"
-                  activeClassName="activeNavButton"
+                  // activeClassName="activeNavButton"
                 >
                   Log Out
                 </NavLink>

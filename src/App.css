@@ -1,3 +1,7 @@
+.activeNavButton {
+  border-bottom: 1px solid white;
+}
+
 .nav-toggler {
   color: white;
 }
@@ -20,18 +24,30 @@
   margin: 2%;
 }
 
-input[type="text"],
-input[type="password"] {
+input[type='text'],
+input[type='password'] {
   outline: none;
   box-shadow: none !important;
   border: 1px solid #ccc !important;
 }
 
-input[type="text"]:focus,
-input[type="password"]:focus {
+input[type='text']:focus,
+input[type='password']:focus {
   outline: none;
   box-shadow: 0 0 12px #008c17 !important;
   border: 1px solid #ccc !important;
+}
+
+input[type='file'] {
+  cursor: pointer;
+}
+
+.custom-file-upload {
+  cursor: pointer;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 5px;
+  margin: 4% 0 -2%;
 }
 
 .additional-info {
@@ -115,4 +131,68 @@ input[type="password"]:focus {
 .register-buttons {
   display: flex;
   justify-content: space-evenly;
+}
+
+/* MODALS */
+.tip-success {
+  width: 20%;
+  height: 100px;
+  /* display: none; */
+}
+
+.modal {
+  margin: 20vh 0 0 -7px;
+}
+
+.modal-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  padding: 40px;
+  text-align: center;
+}
+
+.modal-body div {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-top: 20px;
+  /* border: 1px solid red; */
+}
+.okBtn {
+  width: 50%;
+  padding: 8px;
+  margin: 0 auto 40px auto;
+  font-size: 1.2rem;
+  border: 1px solid rgb(216, 221, 222);
+}
+
+.okBtn:hover {
+  border: 1px solid rgb(216, 221, 222);
+}
+
+.modal-body div .btn {
+  width: 40%;
+  padding: 5px;
+  margin: 0 2%;
+  font-size: 1.6rem;
+  font-weight: bold;
+  border: 1px solid rgb(216, 221, 222);
+}
+
+.btn-primary {
+  background-color: #008c17;
+}
+
+.btn-primary:hover {
+  background-color: #1fda3e;
+}
+
+/* Login error warning */
+
+.login-error {
+  color: red;
+  text-align: center;
 }
