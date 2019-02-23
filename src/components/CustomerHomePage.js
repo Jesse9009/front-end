@@ -161,12 +161,12 @@ class CustomerHomePage extends Component {
                   src={`${URL}${photoURL}`}
                   alt="Card image cap"
                 />
-                <CardBody>
-                  <CardSubtitle>
+                <CardBody className="card-body">
+                  <CardSubtitle className="card-name">
                     {worker.fname} {worker.lname}
                   </CardSubtitle>
-                  <CardText>{worker.jobTitle}</CardText>
-                  <CardText>{worker.tagline}</CardText>
+                  <CardText className="card-text">{worker.jobTitle}</CardText>
+                  <CardText className="card-text">{worker.tagline}</CardText>
                   {/* Store id on state when the tip button is clicked to open modal */}
                   <Button
                     color="success"
@@ -215,7 +215,7 @@ class CustomerHomePage extends Component {
             backdrop={this.state.backdrop}
           >
             <ModalBody>
-              <h3>Tip Received</h3>
+              <h3>Tip Sent</h3>
               <h3>Thank You!</h3>
             </ModalBody>
 
