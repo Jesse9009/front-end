@@ -185,7 +185,7 @@ class Register extends Component {
               <AvField
                 type="password"
                 name="confirmationPassword"
-                placeholder="password"
+                placeholder="confirm password"
                 validate={{ match: { value: 'password' } }}
               />
               <Button outline type="submit">
@@ -215,7 +215,7 @@ class Register extends Component {
               <AvField
                 type="password"
                 name="confirmationPassword"
-                placeholder="password"
+                placeholder="confirm password"
                 validate={{ match: { value: 'password' } }}
               />
               <AvField
